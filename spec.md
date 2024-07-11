@@ -184,9 +184,9 @@ the expanded form.
 If you want to reuse other Compose files, or factor out parts of you application model into separate Compose files, you can also use [`include`](14-include.md). This is useful if your Compose application is dependent on another application which is managed by a different team, or needs to be shared with others.
 # Version and name top-level elements
 
-## Version top-level element
+## Version top-level element (obsolete)
 
-The top-level `version` property is defined by the Compose Specification for backward compatibility. It is only informative.
+The top-level `version` property is defined by the Compose Specification for backward compatibility. It is only informative you'll receive a warning message that it is obsolete if used. 
 
 Compose doesn't use `version` to select an exact schema to validate the Compose file, but
 prefers the most recent schema when it's implemented.
@@ -234,6 +234,8 @@ described in detail in the [Compose Deploy Specification](deploy.md) documentati
 If not implemented the `deploy` section is ignored and the Compose file is still considered valid.
 
 ## attach
+
+[![Compose v2.20.0](https://img.shields.io/badge/compose-v2.20.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.20.0)
 
 When `attach` is defined and set to `false` Compose does not collect service logs,
 until you explicitly request it to.
@@ -375,6 +377,9 @@ cap_drop:
 ```
 
 ## cgroup
+
+[![Compose v2.15.0](https://img.shields.io/badge/compose-v2.15.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.15.0)
+
 
 `cgroup` specifies the cgroup namespace to join. When unset, it is the container runtime's decision to
 select which cgroup namespace to use, if supported.
@@ -583,7 +588,9 @@ expressed in the short form.
 
 - `restart`: When set to `true` Compose restarts this service after it updates the dependency service.
   This applies to an explicit restart controlled by a Compose operation, and excludes automated restart by the container runtime
-  after the container dies.
+  after the container dies. [![Compose v2.17.0](https://img.shields.io/badge/compose-v2.17.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.17.0)
+
+
 
 - `condition`: Sets the condition under which dependency is considered satisfied
   - `service_started`: An equivalent of the short syntax described above
@@ -593,7 +600,8 @@ expressed in the short form.
   - `service_completed_successfully`: Specifies that a dependency is expected to run
     to successful completion before starting a dependent service.
 - `required`: When set to `false` Compose only warns you when the dependency service isn't started or available. If it's not defined
-    the default value of `required` is `true`.
+    the default value of `required` is `true`. [![Compose v2.20.0](https://img.shields.io/badge/compose-v2.20.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.20.0)
+
 
 Service dependencies cause the following behaviors:
 
@@ -633,6 +641,9 @@ Compose guarantees dependency services marked with
 `deploy` specifies the configuration for the deployment and lifecycle of services, as defined [in the Compose Deploy Specification](deploy.md).
 
 ## develop
+
+[![Compose v2.22.0](https://img.shields.io/badge/compose-v2.22.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.22.0)
+
 
 `develop` specifies the development configuration for maintaining a container in sync with source, as defined in the [Development Section](develop.md).
 
@@ -1096,7 +1107,8 @@ extra_hosts:
   - "myhostv6=[::1]"
 ```
 
-The separator `=` is preferred, but `:` can also be used. For example:
+The separator `=` is preferred [![Compose v2.24.1](https://img.shields.io/badge/compose-v2.24.1-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.24.1)
+ but `:` can also be used. For example:
 
 ```yml
 extra_hosts:
@@ -1158,7 +1170,7 @@ healthcheck:
   start_interval: 5s
 ```
 
-`interval`, `timeout`, `start_period`, and `start_interval` are [specified as durations](11-extension.md#specifying-durations).
+`interval`, `timeout`, `start_period`, and `start_interval` [![Compose v2.20.2](https://img.shields.io/badge/compose-v2.20.2-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.20.2) are [specified as durations](11-extension.md#specifying-durations).
 
 `test` defines the command Compose runs to check container health. It can be
 either a string or a list. If it's a list, the first item must be either `NONE`, `CMD` or `CMD-SHELL`.
@@ -1244,6 +1256,9 @@ which must be implemented as described if supported:
 ```
 
 ## uts
+
+[![Compose v2.15.1](https://img.shields.io/badge/compose-v2.15.1-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.15.1)
+
 
 `uts` configures the UTS namespace mode set for the service container. When unspecified
 it is the runtime's decision to assign a UTS namespace, if supported. Available values are:
@@ -1468,6 +1483,23 @@ networks:
 
 `mac_address` sets the MAC address used by the service container when connecting to this particular network.
 
+### driver_opts
+
+[![unreleased](https://img.shields.io/badge/compose-unreleased-blue?style=flat-square)](https://github.com/docker/compose)
+
+`driver_opts` specifies a list of options as key-value pairs to pass to the driver. These options are
+driver-dependent. Consult the driver's documentation for more information.
+
+```yml
+services:
+  app:
+    networks:
+      app_net:
+        driver_opts:
+          foo: "bar"
+          baz: 1
+```
+
 ### priority
 
 `priority` indicates in which order Compose connects the service’s containers to its
@@ -1494,6 +1526,8 @@ networks:
 ```
 
 ## mac_address
+
+[![Compose v2.23.2](https://img.shields.io/badge/compose-v2.23.2-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.23.2)
 
 `mac_address` sets a MAC address for the service container.
 
@@ -1636,8 +1670,9 @@ expressed in the short form.
 - `host_ip`: The Host IP mapping, unspecified means all network interfaces (`0.0.0.0`).
 - `protocol`: The port protocol (`tcp` or `udp`). Defaults to `tcp`.
 - `app_protocol`: The application procotol (TCP/IP level 4 / OSI level 7) this port is used for. This is optional and can be used as a hint for Compose to offer richer behavior for protocols that it understands.
+[![Compose v2.26.0](https://img.shields.io/badge/compose-v2.26.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.26.0)
 - `mode`: `host`: For publishing a host port on each node, or `ingress` for a port to be load balanced. Defaults to `ingress`.
-- `name`: A human-readable name for the port, used to document it's usage within the service
+- `name`: A human-readable name for the port, used to document its usage within the service
 
 ```yml
 ports:
@@ -1999,7 +2034,7 @@ expressed in the short form.
   - `subpath`: Path inside a volume to mount instead of the volume root.
 - `tmpfs`: Configures additional tmpfs options:
   - `size`: The size for the tmpfs mount in bytes (either numeric or as bytes unit).
-  - `mode`: The file mode for the tmpfs mount as Unix permission bits as an octal number.
+  - `mode`: The file mode for the tmpfs mount as Unix permission bits as an octal number. [![Compose v2.14.0](https://img.shields.io/badge/compose-v2.14.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.14.0)
 - `consistency`: The consistency requirements of the mount. Available values are platform specific.
 
 ## volumes_from
@@ -2089,44 +2124,6 @@ driver is not available on the platform.
 networks:
   db-data:
     driver: overlay
-```
-
-Default and available values are platform specific. Compose supports the following drivers:
-`none` and `host`
-
-- `host`: Use the host's networking stack.
-- `none`: Turn off networking.
-
-#### host or none
-
-The syntax for using built-in networks such as `host` and `none` is different, as such networks implicitly exist outside
-the scope of Compose. To use them, you must define an external network with the name `host` or `none` and
-an alias that Compose can use (`hostnet` and `nonet` in the following example), then grant the service
-access to that network using its alias.
-
-```yml
-services:
-  web:
-    networks:
-      hostnet: {}
-
-networks:
-  hostnet:
-    external: true
-    name: host
-```
-
-```yml
-services:
-  web:
-    ...
-    networks:
-      nonet: {}
-
-networks:
-  nonet:
-    external: true
-    name: none
 ```
 
 ### driver_opts
@@ -2426,6 +2423,7 @@ The top-level `configs` declaration defines or references configuration data tha
 - `file`: The config is created with the contents of the file at the specified path.
 - `environment`: The config content is created with the value of an environment variable.
 - `content`: The content is created with the inlined value.
+[![Compose v2.23.1](https://img.shields.io/badge/compose-v2.23.1-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.23.1)
 - `external`: If set to true, `external` specifies that this config has already been created. Compose does not
   attempt to create it, and if it does not exist, an error occurs.
 - `name`: The name of the config object in the container engine to look up. This field can be used to
@@ -2494,7 +2492,7 @@ The top-level `secrets` declaration defines or references sensitive data that is
 application. The source of the secret is either `file` or `environment`.
 
 - `file`: The secret is created with the contents of the file at the specified path.
-- `environment`: The secret is created with the value of an environment variable.
+- `environment`: The secret is created with the value of an environment variable. [![Compose v2.6.0](https://img.shields.io/badge/compose-v2.6.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.6.0)
 - `external`: If set to true, `external` specifies that this secret has already been created. Compose does
   not attempt to create it, and if it does not exist, an error occurs.
 - `name`: The name of the secret object in Docker. This field can be used to
@@ -3017,6 +3015,8 @@ services:
 
 ### Replace value
 
+[![Compose v2.24.4](https://img.shields.io/badge/compose-v2.24.4-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.24.4)
+
 While `!reset` can be used to remove a declaration from a Compose file using an override file, `!override` allows
 you to fully replace an attribute, bypassing the standard merge rules. A typical example is to fully replace a 
 resource definition, to rely on a distinct model but using the same name.
@@ -3052,6 +3052,8 @@ services:
 
 If `!override` had not been used, both `8080:80` and `8443:443` would be exposed as per the [merging rules outlined above](#sequence). 
 # Include
+
+[![Compose v2.20.0](https://img.shields.io/badge/compose-v2.20.0-blue?style=flat-square)](https://github.com/docker/compose/releases/v2.20.0)
 
 A Compose application can declare dependency on another Compose application. This is useful if:
 - You want to reuse other Compose files.
